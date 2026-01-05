@@ -1,13 +1,15 @@
 using System;
+using System.Text;
 
 namespace TerminalEngine.Graphics;
 
-class Terminal
+public class Terminal
 {
 	private int _prevWidth;
 	private int _prevHeight;
 	private int _terminalWidth;
 	private int _terminalHeight;
+	private string blank;
 
 	public readonly int Width;
 	public readonly int Height; 
@@ -37,6 +39,7 @@ class Terminal
 
 		Width = _terminalWidth;
 		Height = _terminalHeight;
+		RefreshBlank();
 	}
 	public Terminal(int width, int height)
 	{
@@ -47,6 +50,7 @@ class Terminal
 
 		Width = width;
 		Height = height;
+		RefreshBlank();
 	}
 
 	public void Update()
@@ -59,6 +63,25 @@ class Terminal
 		{
 			DrawBorder();
 		}
+	}
+
+	public void RefreshScreen()
+	{
+		Console.Write($"\x1b[{StartY};{StartX}H{screenColor}{blank}");
+		for (int i = 1; i<Height; i++)
+		{
+			Console.Write($"\x1b[{StartY + i};{StartX}H{blank}");
+		}
+	}
+
+	public void RefreshBlank()
+	{
+		StringBuilder bob = new StringBuilder();
+		for (int i = 0; i<Width; i++)
+		{
+			bob.Append(screenChar);
+		}
+		blank = bob.ToString();
 	}
 
 	public void DrawBorder()

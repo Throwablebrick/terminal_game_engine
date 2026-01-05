@@ -41,7 +41,7 @@ class Program
 				running = false;
 			}
 			t.Update();
-			box.Draw(t.StartX, t.StartY);
+			box.Draw(t);
 
 			elapsedMiliseconds = stopwatch.Elapsed.TotalMilliseconds;
 			remainingMiliseconds = targetFrameTime - elapsedMiliseconds;
